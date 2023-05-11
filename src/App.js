@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import ReactDom from "react-dom";
 
-function App() {
+const App = () => {
+  const [todoList, setTodoList] = React.useState(["eat", "sleep", "code"]);
+
+  const addNewTask = (e) => {
+    const newTask = document.getElementById("newTask").value;
+    e.preventDefault();
+    setTodoList([...todoList, newTask]);
+  };
+
+  const deleteTask = (task) => {
+    const updatedList = todoList.filter((taskToDelete) => taskToDelete !== task);
+    setTodoList(updatedList);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>These are the tasks to be completed</h1>
+      <ol>
+        {todoList.map((task) => (
+          <li key={task}>
+            {task} <button onClick={() => deleteTask(task)}>Delete</button>
+          </li>
+        ))}
+      </ol>
+      <h1>Do you want to add more?</h1>
+      <form onSubmit={addNewTask}>
+        <input type="text" id="newTask" placeholder="Enter a new task" />
+        <input type="submit" value="Add Task" />
+      </form>
     </div>
   );
-}
+};
 
 export default App;
